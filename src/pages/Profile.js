@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import Loading from "../components/Loading";
 import ProfilePost from "../components/ProfilePost.js";
+import PostModal from "../components/Post-Modal.js";
 import { getProfile, follow, unFollow, createChat } from "../database";
 
 const Profile = ({ userData }) => {
