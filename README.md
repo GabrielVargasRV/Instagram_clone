@@ -3,6 +3,8 @@
 ## Description
   Instagram web clone built with react js, redux and firebase
   
+  link: https://ig-clone-34886.web.app/
+  
 ## Installation
 
  ### firebase config object
