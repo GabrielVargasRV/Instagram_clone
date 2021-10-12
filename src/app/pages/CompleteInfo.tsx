@@ -1,9 +1,18 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { db } from "../firebase.js";
+import { db } from "../../firebase.js";
 import {useHistory} from 'react-router-dom';
 
-const CompleteInfo = ({ user,setUserData }) => {
+import '../../styles/complete-info.css'
+
+import {userDataType,userType,stateType,getUserData} from "../../utilities/utils"
+
+interface Props {
+  user:userType
+  setUserData: (userData: userDataType) => void
+}
+
+const CompleteInfo: React.FC<Props> = ({ user,setUserData }) => {
 	const history = useHistory();
   const [formData, setFormData] = useState({
     name: "",
@@ -12,14 +21,14 @@ const CompleteInfo = ({ user,setUserData }) => {
     gender: "male",
   });
 
-  const handleOnChange = (e) => {
+  const handleOnChange = (e:any) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
 
-  const createUserData = async (e) => {
+  const createUserData = async (e:any) => {
 		e.preventDefault()
 		if(formData.name.length > 5 && formData.username.length > 5 && formData.gender.length) {
       const usersWithSameUsername = await db.collection('userData').where('username','==',formData.username).get()
@@ -31,7 +40,7 @@ const CompleteInfo = ({ user,setUserData }) => {
 				...user
 			};
 			await db.collection('userData').doc(user.uid).set(templateObj)
-			getUserData(user.uid).then((data) => {
+			getUserData(user.uid).then((data:userDataType) => {
         setUserData(data);
         history.push('/home')
       });
@@ -52,37 +61,25 @@ const CompleteInfo = ({ user,setUserData }) => {
             <label htmlFor="">
               <p>Name</p>
               <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleOnChange}
+                type="text" name="name" value={formData.name} onChange={handleOnChange}
               />
             </label>
             <label htmlFor="">
               <p>Username</p>
               <input
-                type="text"
-                name="username"
-                value={formData.username}
-                onChange={handleOnChange}
+                type="text" name="username" value={formData.username} onChange={handleOnChange}
               />
             </label>
             <label htmlFor="">
               <p>Bio</p>
               <textarea
-                cols="30"
-                name="bio"
-                value={formData.bio}
-                onChange={handleOnChange}
-								placeholder="(optional)"
+                name="bio" value={formData.bio} onChange={handleOnChange} placeholder="(optional)"
               ></textarea>
             </label>
             <label htmlFor="">
               <p>Gender</p>
               <select
-                name="gender"
-                value={formData.gender}
-                onChange={handleOnChange}
+                name="gender" value={formData.gender} onChange={handleOnChange}
               >
                 <option value="male">male</option>
                 <option value="female">female</option>
@@ -98,11 +95,11 @@ const CompleteInfo = ({ user,setUserData }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:stateType) => ({
   user: state.user,
 });
-const mapDispatchToProps = (dispatch) => ({
-	setUserData(userData){
+const mapDispatchToProps = (dispatch:any) => ({
+	setUserData(userData:userDataType){
 		dispatch({
 			type:"SET_USERDATA",
 			userData:userData

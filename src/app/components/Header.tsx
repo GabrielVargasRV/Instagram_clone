@@ -1,57 +1,67 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { auth, db } from "../firebase";
+import { auth, db } from "../../firebase";
 import { connect } from "react-redux";
 import Loading from "./Loading";
-import { getUserData } from "../database";
 
-const Header = ({ login, logout, setUserData, userData }) => {
+import '../../styles/header.css'
+
+import {userDataType,stateType,userType,getUserData } from "../../utilities/utils"
+
+interface Props {
+  login:(user: any) => void;
+  logout: () => void;
+  setUserData:(data:any) => void;
+  userData:userDataType;
+}
+
+const getActivities = async (userData:userDataType,setActivityData:any) => {
+  const activitiesSnapshot = await db
+    .collection("userData")
+    .doc(userData.uid)
+    .collection("activity")
+    .get();
+  const activitiesArr:any = [];
+  activitiesSnapshot.docs.forEach((a) => {
+    activitiesArr.push({ id: a.id, ...a.data() });
+  });
+  setActivityData(activitiesArr);
+};
+
+const handleActivityButton = (activityIsOpen:any,setActivityIsOpen:any,userData:userDataType,setActivityData:any) => {
+  setActivityIsOpen(!activityIsOpen);
+  const activity = document.getElementById("Activity");
+  const searchModal = document.getElementById("search-modal");
+  getActivities(userData,setActivityData);
+  if (activityIsOpen) {
+    activity.style.display = "block";
+    searchModal.style.display = "none";
+  } else {
+    activity.style.display = "none";
+  }
+};
+
+const handleSearch = async (e:any,setUsersSearch:any) => {
+  if (e.target.value.length) {
+    const searchSnapshot = await db
+      .collection("userData")
+      .where("username", "<=", e.target.value)
+      .limit(15)
+      .get();
+    const usersSearchArr:any = [];
+    searchSnapshot.docs.forEach((u) => {
+      usersSearchArr.push(u.data());
+    });
+    setUsersSearch(usersSearchArr);
+  }
+};
+
+const Header: React.FC<Props> = ({ login, logout, setUserData, userData }) => {
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(true);
   const [activityIsOpen, setActivityIsOpen] = useState(true);
   const [activityData, setActivityData] = useState(null);
   const [usersSearch, setUsersSearch] = useState([]);
-
-  const handleActivityButton = () => {
-    setActivityIsOpen(!activityIsOpen);
-    const activity = document.getElementById("Activity");
-    const searchModal = document.getElementById("search-modal");
-    getActivities();
-    if (activityIsOpen) {
-      activity.style.display = "block";
-      searchModal.style.display = "none";
-    } else {
-      activity.style.display = "none";
-    }
-  };
-
-  const getActivities = async () => {
-    const activitiesSnapshot = await db
-      .collection("userData")
-      .doc(userData.uid)
-      .collection("activity")
-      .get();
-    const activitiesArr = [];
-    activitiesSnapshot.docs.forEach((a) => {
-      activitiesArr.push({ id: a.id, ...a.data() });
-    });
-    setActivityData(activitiesArr);
-  };
-
-  const handleSearch = async (e) => {
-    if (e.target.value.length) {
-      const searchSnapshot = await db
-        .collection("userData")
-        .where("username", "<=", e.target.value)
-        .limit(15)
-        .get();
-      const usersSearchArr = [];
-      searchSnapshot.docs.forEach((u) => {
-        usersSearchArr.push(u.data());
-      });
-      setUsersSearch(usersSearchArr);
-    }
-  };
 
   const handleOnFocusSearchInput = () => {
     const activity = document.getElementById("Activity");
@@ -64,7 +74,7 @@ const Header = ({ login, logout, setUserData, userData }) => {
     const searchModal = document.getElementById("search-modal");
     setTimeout(() => {
       searchModal.style.display = "none";
-    }, 100);
+    }, 300);
   };
 
   useEffect(() => {
@@ -79,12 +89,10 @@ const Header = ({ login, logout, setUserData, userData }) => {
           };
           login(user);
           getUserData(user.uid).then((data) => {
-            console.log(data)
             setUserData(data);
             setIsLoading(false);
           });
         } else {
-          console.log('logout')
           logout();
           history.push("/");
           setIsLoading(false);
@@ -101,14 +109,14 @@ const Header = ({ login, logout, setUserData, userData }) => {
     <div className="Header-container">
       <div className="Header">
         <Link to="/home" className="title">
-          Instagram
+          <img src="/src/Instagram-logo-big.png" alt="" />
         </Link>
         <input
           type="text"
           placeholder="🔍Search"
           onBlur={handleOnBlurSearchInput}
           onFocus={handleOnFocusSearchInput}
-          onChange={handleSearch}
+          onChange={(e) => handleSearch(e,setUsersSearch)}
         />
         <div>
           <Link to="/home" className="link">
@@ -117,7 +125,7 @@ const Header = ({ login, logout, setUserData, userData }) => {
           <Link to="/inbox" className="link">
             <i className="fab fa-facebook-messenger"></i>
           </Link>
-          <i onClick={handleActivityButton} class="fas fa-heart"></i>
+          <i onClick={() => handleActivityButton(activityIsOpen,setActivityIsOpen,userData,setActivityData)} className="fas fa-heart"></i>
           {userData && (
             <Link to="/">
               <img src={userData.photoURL} alt="" />
@@ -129,13 +137,13 @@ const Header = ({ login, logout, setUserData, userData }) => {
         {usersSearch.length ? (
           usersSearch.map((u) => {
             return (
-              <Link to={`/profile/${u.username}`} className="link">
+              <div onClick={() => history.push(`/profile/${u.username}`)} className="link">
                 <img src={u.photoURL} alt="" />
                 <div>
                   <p>{u.username}</p>
                   <p>{u.name}</p>
                 </div>
-              </Link>
+              </div>
             );
           })
         ) : (
@@ -147,7 +155,7 @@ const Header = ({ login, logout, setUserData, userData }) => {
       <div id="Activity" className="Activity">
         {activityData ? (
           activityData.length ? (
-            activityData.map((act) => {
+            activityData.map((act:any) => {
               return (
                 <div>
                   <p>
@@ -171,17 +179,17 @@ const Header = ({ login, logout, setUserData, userData }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:stateType) => ({
   userData: state.userData,
 });
-const mapDispatchToProps = (dispatch) => ({
-  login(user) {
+const mapDispatchToProps = (dispatch:any) => ({
+  login(user:userType) {
     dispatch({
       type: "LOGIN",
       user,
     });
   },
-  setUserData(userData) {
+  setUserData(userData:userDataType) {
     dispatch({
       type: "SET_USERDATA",
       userData: userData,

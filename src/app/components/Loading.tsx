@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Loading = () => {
+const Loading: React.FC = () => {
     return(
         <div className="Loading">
-			<i class="fab fa-instagram"></i>
+			<i className="fab fa-instagram"></i>
         </div>
     )
 }

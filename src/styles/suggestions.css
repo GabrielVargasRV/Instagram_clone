@@ -1,0 +1,69 @@
+.Home .suggestions {
+    grid-area: sugg;
+    padding-top: 50px;
+  }
+  .suggestions .sugg-header {
+    display: flex;
+    justify-content: space-between;
+  }
+  .suggestions .sugg-header div {
+    display: flex;
+    align-items: center;
+  }
+  .suggestions .sugg-header div img {
+    width: 60px;
+    border-radius: 50%;
+  }
+  
+  .suggestions .sugg-header span {
+    margin-left: 10px;
+  }
+  .suggestions .sugg-header span .username {
+    margin: 0px;
+    font-weight: bold;
+  }
+  .suggestions .sugg-header span .name {
+    margin: 0px;
+    color: #C2C2C2;
+  }
+  .suggestions .sugg-header button {
+    background-color: transparent;
+    border-style: none;
+    color: #0095f6;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .suggestions-container .title {
+    font-weight: bold;
+    color: #C2C2C2;
+  }
+  .sugg-user {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .sugg-user img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+  .sugg-user button {
+    background-color: transparent;
+    color: #0095f6;
+    border-style: none;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .sugg-user div {
+    display: flex;
+    align-items: center;
+  }
+  .sugg-user p {
+    margin: 0px;
+    padding-top: 3px;
+    margin-left: 3px;
+    font-size: 14px;
+  }
+  

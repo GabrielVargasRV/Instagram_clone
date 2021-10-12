@@ -3,6 +3,7 @@ import { createStore } from "redux";
 const initialState = {
   user: null,
   userData:null,
+  postModalInfo:null
 };
 
 const reducer = (state = initialState, action) => {
@@ -21,6 +22,11 @@ const reducer = (state = initialState, action) => {
 			return{
 				...initialState
 			}
+    case "SET_POSTMODAL_INFO":
+      return{
+        ...state,
+        postModalInfo:action.postModalInfo
+      }
   }
   return state;
 };

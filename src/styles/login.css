@@ -1,0 +1,36 @@
+.Login {
+    width: 350px;
+    margin: 0 auto;
+    margin-top: 50px;
+    padding: 5px;
+    background-color: #fff;
+    border: 1px #e5e5e5 solid;
+    text-align: center;
+  }
+  .Login div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .Login img {
+    width: 30%;
+    margin-bottom: 10px;
+  }
+  .Login button {
+    padding: 5px 15px;
+    margin-bottom: 10px;
+    border-style: none;
+    border-radius: 3px;
+    background-color: #0095f6;
+    color: white;
+  }
+  .Login img {
+    border-radius: 50%;
+  }
+  .Login span {
+    font-size: 13px;
+  }
+  .Login span a {
+    color: #0095f6;
+    cursor: pointer;
+  }

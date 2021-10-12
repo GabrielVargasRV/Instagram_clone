@@ -1,23 +1,29 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 import { useHistory } from "react-router-dom";
 
-const CreatePost = ({ userData }) => {
+import {stateType, userDataType} from "../../utilities/utils"
+
+interface Props {
+  userData:userDataType;
+}
+
+const CreatePost: React.FC<Props> = ({ userData }) => {
   const history = useHistory();
   const [formData, setFormData] = useState({
     caption: "",
     photo: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e:any) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
 
-  const post = async (e) => {
+  const post = async (e:any) => {
     e.preventDefault();
     if (formData.photo.length) {
       const now = Date.now();
@@ -31,7 +37,7 @@ const CreatePost = ({ userData }) => {
       await db
         .collection("posts")
         .add(templateObj)
-        .then((res) => {});
+        .then((res:any) => {});
       history.push("/home");
     }
   };
@@ -42,7 +48,6 @@ const CreatePost = ({ userData }) => {
         <label>
           <p>caption</p>
           <textarea
-            cols="30"
             name="caption"
             value={formData.caption}
             onChange={handleChange}
@@ -63,9 +68,9 @@ const CreatePost = ({ userData }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:stateType) => ({
   userData: state.userData,
 });
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch:any) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);

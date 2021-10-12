@@ -1,0 +1,35 @@
+.Home {
+  width: 935px;
+  display: grid;
+  grid-template-columns: 65% 35%;
+  grid-template-areas:
+    "posts sugg"
+    "posts sugg"
+    "posts .";
+  margin: 0 auto;
+  grid-gap: 10px;
+}
+.Home .createpost-btn {
+  width: 99%;
+  height: 30px;
+  grid-area: createpost-btn;
+  border-style: none;
+  border-radius: 4px;
+  margin-top: 6px;
+  cursor: pointer;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  font-weight: bold;
+}
+.Home .posts {
+  width: 100%;
+  height: 90vh;
+  grid-area: posts;
+  overflow-y: scroll;
+}
+
+@media (max-width: 934px) {
+  .Home {
+    grid-template-columns: 100vw;
+  }
+}

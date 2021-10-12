@@ -2,12 +2,20 @@ import React, { useState, useEffect,useRef } from "react";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
 import { useParams, Link } from "react-router-dom";
-import { db } from "../firebase.js";
+import { db } from "../../firebase.js";
 import Loading from "../components/Loading";
 
-const Inbox = ({ userData }) => {
-  const { id } = useParams();
-  const dummy = useRef();
+import '../../styles/inbox.css'
+
+import {stateType, userDataType,userType} from "../../utilities/utils"
+
+interface Props {
+  userData: userDataType
+}
+
+const Inbox: React.FC<Props> = ({ userData }) => {
+  const { id } = useParams<any>();
+  const dummy = useRef<any | null>(null);
   const [chats, setChats] = useState([]);
   const [chatInfo, setChatInfo] = useState(null);
   const [messeges, setMesseges] = useState([]);
@@ -19,10 +27,10 @@ const Inbox = ({ userData }) => {
       .collection("chats")
       .where("usersname", "array-contains", userData.username)
       .orderBy("lastMsgDate","desc")
-      .onSnapshot((snapshot) => {
-        const chatsArr = [];
-        snapshot.docs.forEach((chat) => {
-          chat.data().users.forEach((user) => {
+      .onSnapshot((snapshot:any) => {
+        const chatsArr:any = [];
+        snapshot.docs.forEach((chat:any) => {
+          chat.data().users.forEach((user:userType) => {
             if (user.username !== userData.username) {
               chatsArr.push({
                 ...chat.data(),
@@ -43,7 +51,7 @@ const Inbox = ({ userData }) => {
 
   const getChat = async () => {
     const snapshot = await db.collection("chats").doc(id).get();
-    snapshot.data().users.forEach((u) => {
+    snapshot.data().users.forEach((u:userType) => {
       if (u.username !== userData.username) {
         setChatInfo(u);
       }
@@ -53,9 +61,9 @@ const Inbox = ({ userData }) => {
       .doc(id)
       .collection("messeges")
       .orderBy("createdAt", "asc")
-      .onSnapshot((snapshot) => {
-        const arr = [];
-        snapshot.docs.forEach((m) => {
+      .onSnapshot((snapshot:any) => {
+        const arr:any = [];
+        snapshot.docs.forEach((m:any) => {
           arr.push({ id: m.id, ...m.data() });
         });
         setMesseges(arr);
@@ -65,7 +73,7 @@ const Inbox = ({ userData }) => {
       });
   };
 
-  const sendMessege = async (e) => {
+  const sendMessege = async (e:any) => {
     e.preventDefault();
     if (text.length) {
       const now = Date.now();
@@ -104,7 +112,7 @@ const Inbox = ({ userData }) => {
         <div className="chats-header">
           <p>{userData.username}</p>
           <button>
-            <i class="fas fa-chevron-down"></i>
+            <i className="fas fa-chevron-down"></i>
           </button>
         </div>
         <div className="chats-container">
@@ -158,7 +166,6 @@ const Inbox = ({ userData }) => {
                 <form onSubmit={sendMessege}>
                   <textarea
                     name=""
-                    cols="30"
                     placeholder="Messege..."
                     value={text}
                     onChange={(e) => setText(e.target.value)}
@@ -183,10 +190,10 @@ const Inbox = ({ userData }) => {
             }}
           >
             <i
-              class="fas fa-paper-plane"
+              className="fas fa-paper-plane"
               style={{ transform: "scale(3)", margin: 20 + "px" }}
             ></i>
-            <p style={{ fontSize: 24 + "px", fontWeight: "100" }}>
+            <p style={{ fontSize: 24 + "px", fontWeight: 100 }}>
               Your Messeges
             </p>
           </div>
@@ -196,10 +203,10 @@ const Inbox = ({ userData }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:stateType) => ({
   userData: state.userData,
 });
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch:any) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Inbox);

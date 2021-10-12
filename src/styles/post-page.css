@@ -1,0 +1,75 @@
+
+.Post-page {
+    width: 935px;
+    height: 87vh;
+    display: grid;
+    grid-template-columns: 65% 35%;
+    margin: 0 auto;
+    margin-top: 10px;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    background-color: #fff;
+  }
+  .Post-page .post-page_l {
+    width: 100%;
+    height: 90vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 4px 0 0 4px;
+    border-right: 1px solid #e5e5e5;
+  }
+  .post-page_header {
+    height: 5vh;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  .post-page_header img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin: 0 5px;
+  }
+  .post-page_header p {
+    font-weight: bold;
+  }
+  .post-page_comments {
+    width: 100%;
+    height: 72vh;
+    border-bottom: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
+    overflow-y: scroll;
+  }
+  .post-page_footer {
+    width: 100%;
+    height: 13vh;
+    padding-top: 3px;
+  }
+  .post-page_footer p {
+    margin: 0px;
+    margin-top: 3px;
+    margin-left: 3px;
+  }
+  .post-page_footer .add-comment form {
+    border-top: none;
+  }
+  .post-page_footer .buttons {
+    margin-left: 3px;
+  }
+  .post-page_comment {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 15px;
+  }
+  .post-page_comment img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin: 3px;
+  }
+  .post-page_comment div p {
+    margin: 0px;
+    word-break: break-all;
+  }

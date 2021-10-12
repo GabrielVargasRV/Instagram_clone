@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { db } from "../firebase.js";
+import { db } from "../../firebase";
+import { connect } from "react-redux";
 
-const ProfilePost = ({ postInfo, handlePostModal }) => {
+import {postType} from "../../utilities/utils"
+
+interface Props {
+  postInfo: postType;
+  setPostModal: (post:postType) => void;
+}
+
+const ProfilePost: React.FC<Props> = ({ postInfo,setPostModal }) => {
   const [post, setPost] = useState(null);
 
   const getLikesAndComments = async () => {
@@ -10,7 +18,7 @@ const ProfilePost = ({ postInfo, handlePostModal }) => {
       .doc(postInfo.id)
       .collection("likes")
       .get();
-    const likes = [];
+    const likes:any = [];
     if (likesSnapShot.docs) {
       likesSnapShot.docs.forEach((l) => {
         likes.push(l.id);
@@ -21,7 +29,7 @@ const ProfilePost = ({ postInfo, handlePostModal }) => {
       .doc(postInfo.id)
       .collection("comments")
       .get();
-    const comments = [];
+    const comments:any = [];
     if (commentsSapShot.docs) {
       commentsSapShot.docs.forEach((c) => {
         comments.push({ id: c.id, ...c.data() });
@@ -40,7 +48,7 @@ const ProfilePost = ({ postInfo, handlePostModal }) => {
 
   return post ? (
     <button
-      onClick={() => handlePostModal(post)}
+      onClick={() => setPostModal(post)}
       className="Profile-post"
       style={{ backgroundImage: `url(${post.photo})` }}
     >
@@ -50,13 +58,13 @@ const ProfilePost = ({ postInfo, handlePostModal }) => {
           <p>{post.likes.length}</p>
         </div>
         <div>
-          <i class="fas fa-comment"></i>
+          <i className="fas fa-comment"></i>
           <p>{post.comments.length}</p>
         </div>
       </div>
     </button>
   ) : (
-    <div class="lds-spinner">
+    <div className="lds-spinner">
       <div></div>
       <div></div>
       <div></div>
@@ -73,4 +81,15 @@ const ProfilePost = ({ postInfo, handlePostModal }) => {
   );
 };
 
-export default ProfilePost;
+const mapStateToProps = (state:any) => ({})
+
+const mapDispatchToProps = (dispatch:any) => ({
+  setPostModal(post:postType){
+    dispatch({
+      type:"SET_POSTMODAL_INFO",
+      postModalInfo:post
+    })
+  }
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(ProfilePost);

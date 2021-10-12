@@ -1,0 +1,65 @@
+.complete-info {
+    width: 500px;
+    background-color: #fff;
+    border: 1px #e5e5e5 solid;
+    margin: 0 auto;
+    margin-top: 30px;
+  }
+  
+  .complete-info form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .complete-info form label {
+    width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .complete-info form label p {
+    font-weight: 600;
+  }
+  .complete-info form label input {
+    height: 20px;
+    width: 200px;
+    border: 1px #e5e5e5 solid;
+    border-radius: 4px;
+  }
+  .complete-info form label textarea {
+    width: 200px;
+    height: 40px;
+    border: 1px #e5e5e5 solid;
+    border-radius: 4px;
+  }
+  .complete-info form label select {
+    width: 205px;
+    height: 25px;
+    border-style: none;
+    border: 1px #e5e5e5 solid;
+    border-radius: 4px;
+  }
+  .complete-info form button {
+    width: 300px;
+    height: 30px;
+    margin-bottom: 10px;
+    background-color: #0095f6;
+    color: #fff;
+    border-style: none;
+    border-radius: 4px;
+  }
+  .complete-info .complete-info_header {
+    width: 360px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    margin-top: 5px;
+  }
+  .complete-info .complete-info_header img {
+    border: 1px solid white;
+    border-radius: 50%;
+  }
+  

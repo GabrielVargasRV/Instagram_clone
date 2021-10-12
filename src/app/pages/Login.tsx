@@ -1,10 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
-import { auth, googleProvider, db } from "../firebase";
+import { auth, googleProvider, db } from "../../firebase";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-const Login = ({ user, userData, logout }) => {
+import '../../styles/login.css'
+
+import {userDataType,userType,stateType} from "../../utilities/utils"
+
+interface Props {
+  user:userType;
+  userData: userDataType;
+  logout: () => void;
+}
+
+const Login: React.FC<Props> = ({ user, userData, logout }) => {
   const history = useHistory();
 
   const loginWithGoogle = async () => {
@@ -56,12 +66,12 @@ const Login = ({ user, userData, logout }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:stateType) => ({
   user: state.user,
   userData: state.userData,
 });
-const mapDispatchToProps = (dispatch) => ({
-  login(user) {
+const mapDispatchToProps = (dispatch:any) => ({
+  login(user:userType) {
     dispatch({
       type: "LOGIN",
       user,

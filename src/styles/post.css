@@ -1,0 +1,72 @@
+.post {
+  width: 99%;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  margin-bottom: 30px;
+}
+.post .post-header {
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+.post .post-header img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin: 0 5px;
+}
+.post .post-header p {
+  font-weight: bold;
+}
+.post .post-footer {
+  padding: 5px 8px;
+}
+.buttons {
+  width: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.post .post-footer p {
+  margin: 5px 0;
+}
+
+.add-comment {
+  width: 100%;
+}
+.add-comment form {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #e5e5e5;
+}
+.add-comment form textarea {
+  width: 90%;
+  font-size: 16px;
+  border-style: none;
+  background-color: #fff;
+  outline: none;
+  resize: none;
+  padding-top: 8px;
+}
+.add-comment form textarea::placeholder {
+  font-family: Arial, Helvetica, sans-serif;
+  padding-top: 8px;
+}
+.add-comment form button {
+  background-color: #fff;
+  border-style: none;
+  cursor: pointer;
+  color: #0095f6;
+}
+.post .post-img {
+  width: 100%;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+@media (max-width: 934px) {
+    .post{
+        width: 98vw;
+    }
+}

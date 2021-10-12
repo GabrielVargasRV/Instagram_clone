@@ -1,20 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import {follow} from "../database";
 
-const Suggestions = ({ userData }) => {
+import '../../styles/suggestions.css'
+
+import {userDataType,stateType,follow} from "../../utilities/utils"
+
+interface Props {
+  userData:userDataType
+}
+
+const Suggestions: React.FC<Props> = ({ userData }) => {
   const [users, setUsers] = useState([]);
 
-  const getUsers = async () => {
+  const getUsers = async (userData:userDataType) => {
     if (userData.following.length) {
       const users = await db
         .collection("userData")
         .where("username", "not-in", userData.following)
         .limit(5)
         .get();
-      const arr = [];
+      const arr:any = [];
       users.docs.forEach((u) => {
         if (u.data().uid !== userData.uid) {
           arr.push(u.data());
@@ -23,7 +30,7 @@ const Suggestions = ({ userData }) => {
       setUsers(arr);
     } else {
       const users = await db.collection("userData").limit(5).get();
-      const arr = [];
+      const arr:any = [];
       users.docs.forEach((u) => {
         if (u.data().uid !== userData.uid) {
           arr.push(u.data());
@@ -33,10 +40,9 @@ const Suggestions = ({ userData }) => {
     }
   };
 
-  const handleFollow = async (username, index) => {
+  const handleFollow = async (username:string, index:any) => {
     const temp = users;
     temp.splice(index, 1);
-    console.log(temp);
     setUsers([...temp]);
 
     follow(username,userData)
@@ -44,7 +50,7 @@ const Suggestions = ({ userData }) => {
   };
 
   useEffect(() => {
-    getUsers();
+    getUsers(userData);
   }, []);
 
   return (
@@ -75,8 +81,8 @@ const Suggestions = ({ userData }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:stateType) => ({
   userData: state.userData,
 });
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch:any) => ({});
 export default connect(mapStateToProps, mapDispatchToProps)(Suggestions);
