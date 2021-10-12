@@ -109,7 +109,7 @@ const Header: React.FC<Props> = ({ login, logout, setUserData, userData }) => {
     <div className="Header-container">
       <div className="Header">
         <Link to="/home" className="title">
-          <img src="/src/Instagram-logo-big.png" alt="" />
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1024px-Instagram_logo.svg.png" alt="" />
         </Link>
         <input
           type="text"
