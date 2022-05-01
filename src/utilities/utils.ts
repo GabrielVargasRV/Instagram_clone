@@ -189,7 +189,7 @@ export const getUserData = async (uid: string) => {
     null,
     { path: uid, collection: "followers" },
     (res) => {
-      if (res.docs.lenght) res.docs.forEach((f: any) => followers.push(f.id));
+      if (res.docs.length) res.docs.forEach((f: any) => followers.push(f.id));
     }
   );
   await api.get(

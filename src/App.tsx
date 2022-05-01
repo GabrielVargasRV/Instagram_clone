@@ -5,19 +5,19 @@ import "./styles.css";
 import store from "./store.js";
 
 //Pages
-const Home = React.lazy(() => import("./app/pages/Home"));
-const Login = React.lazy(() => import("./app/pages/Login"));
-const CompleteInfo = React.lazy(() => import("./app/pages/CompleteInfo"));
-const CreatePost = React.lazy(() => import("./app/pages/CreatePost"));
-const PostPage = React.lazy(() => import("./app/pages/PostPage"));
-const Profile = React.lazy(() => import("./app/pages/Profile"));
-const Inbox = React.lazy(() => import("./app/pages/Inbox"));
-const PostModal = React.lazy(() => import("./app/components/Post-Modal"))
+const Home = React.lazy(() => import("./pages/Home"));
+const Login = React.lazy(() => import("./pages/Login"));
+const CompleteInfo = React.lazy(() => import("./pages/CompleteInfo"));
+const CreatePost = React.lazy(() => import("./pages/CreatePost"));
+const PostPage = React.lazy(() => import("./pages/PostPage"));
+const Profile = React.lazy(() => import("./pages/Profile"));
+const Inbox = React.lazy(() => import("./pages/Inbox"));
+const PostModal = React.lazy(() => import("./components/Post-Modal"))
 
-import Header from "./app/components/Header";
+import Header from "./components/Header";
 
 //Loading
-import Loading from "./app/components/Loading";
+import Loading from "./components/Loading";
 
 
 const App: React.FC = () => {

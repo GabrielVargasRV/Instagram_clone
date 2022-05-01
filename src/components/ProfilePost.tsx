@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { db } from "../../firebase";
+import { db } from "../firebase";
 import { connect } from "react-redux";
 
-import {postType} from "../../utilities/utils"
+import {postType} from "../utilities/utils"
 
 interface Props {
   postInfo: postType;

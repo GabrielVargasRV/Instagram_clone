@@ -4,7 +4,7 @@ import '../../styles/post.css'
 
 import { connect } from 'react-redux';
 
-import {handleLike,addComment, getLikesAndComments,postType,userDataType } from "../../utilities/utils";
+import {handleLike,addComment, getLikesAndComments,postType,userDataType } from "../utilities/utils";
 interface Props {
   postInfo: postType;
   userData:userDataType

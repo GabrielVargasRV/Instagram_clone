@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { db } from "../../firebase";
+import { db } from "../firebase";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import '../../styles/suggestions.css'
 
-import {userDataType,stateType,follow} from "../../utilities/utils"
+import {userDataType,stateType,follow} from "../utilities/utils"
 
 interface Props {
   userData:userDataType

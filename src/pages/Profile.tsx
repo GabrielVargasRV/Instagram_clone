@@ -7,7 +7,7 @@ import ProfilePost from "../components/ProfilePost";
 
 import '../../styles/profile.css'
 
-import { postType, stateType, userDataType, getProfile, follow, unFollow, createChat } from '../../utilities/utils'
+import { postType, stateType, userDataType, getProfile, follow, unFollow, createChat } from '../utilities/utils'
 
 interface ProfileInfoProps {
   profile: any;

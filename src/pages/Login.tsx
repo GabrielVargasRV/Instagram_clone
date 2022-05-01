@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
-import { auth, googleProvider, db } from "../../firebase";
+import { auth, googleProvider, db } from "../firebase";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import '../../styles/login.css'
 
-import {userDataType,userType,stateType} from "../../utilities/utils"
+import {userDataType,userType,stateType} from "../utilities/utils"
 
 interface Props {
   user:userType;

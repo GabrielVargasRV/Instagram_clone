@@ -2,12 +2,12 @@ import React, { useState, useEffect,useRef } from "react";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
 import { useParams, Link } from "react-router-dom";
-import { db } from "../../firebase.js";
+import { db } from "../firebase.js";
 import Loading from "../components/Loading";
 
 import '../../styles/inbox.css'
 
-import {stateType, userDataType,userType} from "../../utilities/utils"
+import {stateType, userDataType,userType} from "../utilities/utils"
 
 interface Props {
   userData: userDataType
