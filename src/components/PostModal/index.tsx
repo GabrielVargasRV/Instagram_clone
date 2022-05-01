@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-import '../../styles/post-modal.css'
+import './styles.css';
 
-import { addComment, handleLike, postType, userDataType } from "../utilities/utils";
+import { addComment, handleLike, postType, userDataType } from "../../utilities/utils";
 
 interface Props {
   postModalInfo: postType;

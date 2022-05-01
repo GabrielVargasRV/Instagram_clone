@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
-import Loading from "../components/Loading";
+import Loading from "../../components/LoadingInstagram";
 
-import '../../styles/post-page.css'
+import './styles.css';
 
-import { addComment,userDataType,handleLike,stateType } from "../utilities/utils";
+import { addComment,userDataType,handleLike,stateType } from "../../utilities/utils";
 
 interface Props {
   userData:userDataType

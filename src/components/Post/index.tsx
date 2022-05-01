@@ -1,10 +1,10 @@
 import React,{useState,useEffect} from 'react'
 import { Link } from "react-router-dom";
-import '../../styles/post.css'
+import './styles.css';
 
 import { connect } from 'react-redux';
 
-import {handleLike,addComment, getLikesAndComments,postType,userDataType } from "../utilities/utils";
+import {handleLike,addComment, getLikesAndComments,postType,userDataType } from "../../utilities/utils";
 interface Props {
   postInfo: postType;
   userData:userDataType

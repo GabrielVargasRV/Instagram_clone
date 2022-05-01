@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import "./styles.css";
@@ -12,12 +12,12 @@ const CreatePost = React.lazy(() => import("./pages/CreatePost"));
 const PostPage = React.lazy(() => import("./pages/PostPage"));
 const Profile = React.lazy(() => import("./pages/Profile"));
 const Inbox = React.lazy(() => import("./pages/Inbox"));
-const PostModal = React.lazy(() => import("./components/Post-Modal"))
+const PostModal = React.lazy(() => import("./components/PostModal"))
 
 import Header from "./components/Header";
 
 //Loading
-import Loading from "./components/Loading";
+import Loading from "./components/LoadingInstagram";
 
 
 const App: React.FC = () => {

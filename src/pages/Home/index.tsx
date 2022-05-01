@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
-import { auth } from "../firebase";
-import Post from "../components/Post";
-import Suggestions from "../components/Suggestions"
-import Loading from "../components/Loading";
+import { auth } from "../../firebase";
+import Post from "../../components/Post";
+import Suggestions from "../../components/Suggestions"
+import Loading from "../../components/LoadingInstagram";
 
-import '../../styles/home.css'
+import './styles.css';
 
-import { getPosts, userDataType, postType } from "../utilities/utils";
+import { getPosts, userDataType, postType } from "../../utilities/utils";
 
 interface Props {
   userData: userDataType

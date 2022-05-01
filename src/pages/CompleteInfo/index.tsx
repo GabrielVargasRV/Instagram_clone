@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { db } from "../firebase.js";
+import { db } from "../../firebase.js";
 import {useHistory} from 'react-router-dom';
 
-import '../../styles/complete-info.css'
+import './styles.css';
 
-import {userDataType,userType,stateType,getUserData} from "../utilities/utils"
+import {userDataType,userType,stateType,getUserData} from "../../utilities/utils"
 
 interface Props {
   user:userType

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { auth, db } from "../firebase";
+import { auth, db } from "../../firebase";
 import { connect } from "react-redux";
-import Loading from "./Loading";
+import Loading from "../LoadingInstagram";
 
-import '../../styles/header.css'
+import './styles.css';
 
-import {userDataType,stateType,userType,getUserData } from "../utilities/utils"
+import {userDataType,stateType,userType,getUserData } from "../../utilities/utils"
 
 interface Props {
   login:(user: any) => void;
