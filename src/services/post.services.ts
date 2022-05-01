@@ -1,6 +1,7 @@
 import * as api from "../utilities/api";
 import { userDataType } from "../types/user.types";
 import { postType } from "../types/post.types";
+import { db } from "../firebase";
 
 export const getPosts = async (userData: userDataType): Promise<postType[]> => {
     const postsArr: postType[] = [];
@@ -18,6 +19,59 @@ export const getPosts = async (userData: userDataType): Promise<postType[]> => {
     return postsArr;
 };
 
+
+
+
+
+
+
+
+
+export const getPost = async (id: string, userData: userDataType) => {
+    const likes:any = [];
+    const comments:any = [];
+    let isLiked = false;
+
+    const postData = await db.collection("posts").doc(id).get();
+    const likesSnapShot = await db
+        .collection("posts")
+        .doc(id)
+        .collection("likes")
+        .get();
+    if (likesSnapShot.docs) {
+        likesSnapShot.docs.forEach((l:any) => {
+        likes.push(l.id);
+        });
+    }
+    const commentsSapShot = await db
+        .collection("posts")
+        .doc(id)
+        .collection("comments")
+        .get();
+    if (commentsSapShot.docs) {
+        commentsSapShot.docs.forEach((c:any) => {
+        comments.push({ id: c.id, ...c.data() });
+        });
+    }
+    if (likes.includes(userData.username)) isLiked = true;
+
+    return {
+        postData: postData.data(),
+        likes,
+        comments,
+        liked: isLiked
+    };
+};
+
+
+
+
+
+
+
+
+
+
 export const getLikes = async (postId: string): Promise<string[]> => {
   const likes: string[] = [];
   await api.get("posts", null, { path: postId, collection: "likes" }, (res) => {
@@ -25,6 +79,17 @@ export const getLikes = async (postId: string): Promise<string[]> => {
   });
   return likes;
 };
+
+
+
+
+
+
+
+
+
+
+
 
 export const getComments = async (postId: string): Promise<[]> => {
     const comments: any = [];
@@ -34,6 +99,16 @@ export const getComments = async (postId: string): Promise<[]> => {
     return comments;
 };
 
+
+
+
+
+
+
+
+
+
+
 export const disLike = async (id: string, username: string): Promise<null | any> => {
     let response = null;
     await api.del("posts",{ path: id, collection: "likes", doc: { path: username } },(res) => {
@@ -41,6 +116,16 @@ export const disLike = async (id: string, username: string): Promise<null | any>
     });
     return response;
 };
+
+
+
+
+
+
+
+
+
+
 
 export const addLike = async (id: string, username: string): Promise<null | any> => {
   let isLiked = null;
@@ -59,6 +144,14 @@ export const addLike = async (id: string, username: string): Promise<null | any>
     }
   return response;
 };
+
+
+
+
+
+
+
+
 
 export const addComment = async (id: string,commentText: string,userData: userDataType): Promise<{}> => {
     const comment = {
@@ -82,11 +175,25 @@ export const addComment = async (id: string,commentText: string,userData: userDa
     };
 };
 
-export const getLikesAndComments = async (postInfo: any): Promise<{}> => {
-    const likes: any = await getLikes(postInfo.id);
-    const comments: any = await getComments(postInfo.id);
+
+
+
+
+
+
+
+
+
+
+interface getLikesAndCommentsReponse{
+    likes: any[];
+    comments: any[];
+}
+
+export const getLikesAndComments = async (id: string): Promise<getLikesAndCommentsReponse> => {
+    const likes: any = await getLikes(id);
+    const comments: any = await getComments(id);
     return {
-        ...postInfo,
         likes,
         comments,
     };

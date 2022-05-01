@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { db } from "../../firebase.js";
 import {useHistory} from 'react-router-dom';
-
+import {userDataType,userType} from "../../types/user.types";
+import { getUserData } from "../../services/user.services";
 import './styles.css';
 
-import {userDataType,userType,stateType,getUserData} from "../../utilities/utils"
 
 interface Props {
   user:userType
@@ -95,7 +95,7 @@ const CompleteInfo: React.FC<Props> = ({ user,setUserData }) => {
   );
 };
 
-const mapStateToProps = (state:stateType) => ({
+const mapStateToProps = (state: any) => ({
   user: state.user,
 });
 const mapDispatchToProps = (dispatch:any) => ({

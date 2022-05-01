@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { useParams, Link, useHistory } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, useHistory } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import Loading from "../../components/LoadingInstagram";
 import ProfilePost from "../../components/ProfilePost";
-
+import Modal from "../../components/PostModal";
+import { postType, stateType, userDataType, getProfile, follow, unFollow, createChat } from '../../utilities/utils'
 import './styles.css';
 
-import { postType, stateType, userDataType, getProfile, follow, unFollow, createChat } from '../../utilities/utils'
 
 interface ProfileInfoProps {
   profile: any;
@@ -101,6 +101,7 @@ const Profile: React.FC<ProfileProps> = ({ userData }) => {
   const [profile, setProfile] = useState(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [following, setFollowing] = useState<any>(false);
+  const [modal,setModal] = useState(null);
 
   useEffect(() => {
     getProfile(username).then((res) => {
@@ -124,41 +125,47 @@ const Profile: React.FC<ProfileProps> = ({ userData }) => {
         <title>Instagram - {username}</title>
       </Helmet>
       {profile ? (
-        <div className="Profile">
-          <ProfileHeader
-            profile={profile}
-            userData={userData}
-            username={username}
-            following={following}
-            setFollowingProp={setFollowing}
-          >
-            <ProfileInfo profile={profile} />
-          </ProfileHeader>
-          {profile.posts.length ? (
-            <div className="Profile-posts">
-              {profile.posts.map((post: postType) => {
-                return (
-                  <ProfilePost
-                    postInfo={post}
-                  />
-                );
-              })}
-            </div>
-          ) : (
-            <div
-              style={{
-                height: 50 + "vh",
-                display: "grid",
-                placeItems: "center",
-                marginTop: 10 + "px",
-                borderRadius: 4 + "px",
-                backgroundColor: "#fff",
-              }}
+        <>
+          <div className="Profile">
+            <ProfileHeader
+              profile={profile}
+              userData={userData}
+              username={username}
+              following={following}
+              setFollowingProp={setFollowing}
             >
-              <h2>Start capturing and sharing your moments.</h2>
-            </div>
+              <ProfileInfo profile={profile} />
+            </ProfileHeader>
+            {profile.posts.length ? (
+              <div className="Profile-posts">
+                {profile.posts.map((post: postType) => {
+                  return (
+                    <ProfilePost
+                      setModal={setModal}
+                      postInfo={post}
+                    />
+                  );
+                })}
+              </div>
+            ) : (
+              <div
+                style={{
+                  height: 50 + "vh",
+                  display: "grid",
+                  placeItems: "center",
+                  marginTop: 10 + "px",
+                  borderRadius: 4 + "px",
+                  backgroundColor: "#fff",
+                }}
+              >
+                <h2>Start capturing and sharing your moments.</h2>
+              </div>
+            )}
+          </div>
+          {modal && (
+            <Modal close={() => setModal(null)} postModalInfo={modal} />
           )}
-        </div>
+        </>
       ) : (
         <Loading />
       )}
@@ -169,6 +176,7 @@ const Profile: React.FC<ProfileProps> = ({ userData }) => {
 const mapStateToProps = (state: stateType) => ({
   userData: state.userData,
 });
+
 const mapDispatchToProps = (dispatch: any) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

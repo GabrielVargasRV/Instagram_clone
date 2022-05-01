@@ -6,24 +6,24 @@ import { auth } from "../../firebase";
 import Post from "../../components/Post";
 import Suggestions from "../../components/Suggestions"
 import Loading from "../../components/LoadingInstagram";
-
+import Modal from "../../components/PostModal";
+import { getPosts, userDataType, postType } from "../../utilities/utils";
 import './styles.css';
 
-import { getPosts, userDataType, postType } from "../../utilities/utils";
 
 interface Props {
   userData: userDataType
   setPostModalInfo:(post:postType) => void;
 }
 
-const Home: React.FC<Props> = ({ userData,setPostModalInfo }) => {
+const Home: React.FC<Props> = ({ userData }) => {
   const history = useHistory();
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [modal,setModal] = useState(null);
 
   const postModal = (post:postType) => {
-    setPostModalInfo(post)
-    // handlePostModal()
+    setModal(post);
   }
 
   useEffect(() => {
@@ -47,33 +47,38 @@ const Home: React.FC<Props> = ({ userData,setPostModalInfo }) => {
         <title>Instagram</title>
       </Helmet>
       {userData ? (
-        <div className="Home">
-          <div className="posts">
-            {posts.length &&
-              posts.map((post: any) => (
-                <Post
-                  handlePostModal={postModal}
-                  postInfo={post}
-                  key={post.id}
-                />
-              ))}
-          </div>
-          <div className="suggestions">
-            <div className="sugg-header">
-              <div>
-                <img src={userData.photoURL} alt="" />
-                <span>
-                  <Link className="link" to={`/profile/${userData.username}`}>
-                    <p className="username">{userData.username}</p>
-                  </Link>
-                  <p className="name">{userData.name}</p>
-                </span>
-              </div>
-              <button onClick={async () => await auth.signOut()}>Switch</button>
+        <>
+          <div className="Home">
+            <div className="posts">
+              {posts.length &&
+                posts.map((post: any) => (
+                  <Post
+                    handlePostModal={postModal}
+                    postInfo={post}
+                    key={post.id}
+                  />
+                ))}
             </div>
-            <Suggestions />
+            <div className="suggestions">
+              <div className="sugg-header">
+                <div>
+                  <img src={userData.photoURL} alt="" />
+                  <span>
+                    <Link className="link" to={`/profile/${userData.username}`}>
+                      <p className="username">{userData.username}</p>
+                    </Link>
+                    <p className="name">{userData.name}</p>
+                  </span>
+                </div>
+                <button onClick={async () => await auth.signOut()}>Switch</button>
+              </div>
+              <Suggestions />
+            </div>
           </div>
-        </div>
+            {modal && (
+              <Modal postModalInfo={modal} close={() => setModal(null)} />
+            )}
+        </>
       ) : (
         <Loading />
       )}

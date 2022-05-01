@@ -1,6 +1,6 @@
 import * as api from "../utilities/api";
 import { userDataType } from "../types/user.types";
-
+import {db} from "../firebase";
 
 export const getUserData = async (uid: string): Promise<{}> => {
     let userData_snapshot: any; // change the type
@@ -75,4 +75,34 @@ export const unFollow = async (uid: string,username: string,myUid: string,myUser
     await api.del("userData",{ path: uid, collection: "followers", doc: { path: myUsername } },(res) => {});
     await api.del("userData",{ path: myUid, collection: "following", doc: { path: username } },(res) => {});
     return;
+};
+
+
+export const getUsers = async (userData:userDataType): Promise<[]> => {
+    let users = null;
+    if (userData.following.length) {
+      const snapshot = await db
+        .collection("userData")
+        .where("username", "not-in", userData.following)
+        .limit(5)
+        .get();
+      const arr:any = [];
+      snapshot.docs.forEach((u) => {
+        if (u.data().uid !== userData.uid) {
+          arr.push(u.data());
+        }
+      });
+      users = arr;
+    } else {
+      const snapshot = await db.collection("userData").limit(5).get();
+      const arr:any = [];
+      snapshot.docs.forEach((u) => {
+        if (u.data().uid !== userData.uid) {
+          arr.push(u.data());
+        }
+      });
+      users = arr;
+    }
+
+    return users;
 };

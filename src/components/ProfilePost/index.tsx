@@ -1,54 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { db } from "../../firebase";
-import { connect } from "react-redux";
 
+import {getLikesAndComments} from "../../services/post.services";
 import {postType} from "../../utilities/utils"
 
 interface Props {
   postInfo: postType;
-  setPostModal: (post:postType) => void;
+  setModal: (post:postType) => void;
 }
 
-const ProfilePost: React.FC<Props> = ({ postInfo,setPostModal }) => {
+
+const ProfilePost: React.FC<Props> = ({ postInfo,setModal }) => {
   const [post, setPost] = useState(null);
 
-  const getLikesAndComments = async () => {
-    const likesSnapShot = await db
-      .collection("posts")
-      .doc(postInfo.id)
-      .collection("likes")
-      .get();
-    const likes:any = [];
-    if (likesSnapShot.docs) {
-      likesSnapShot.docs.forEach((l) => {
-        likes.push(l.id);
-      });
-    }
-    const commentsSapShot = await db
-      .collection("posts")
-      .doc(postInfo.id)
-      .collection("comments")
-      .get();
-    const comments:any = [];
-    if (commentsSapShot.docs) {
-      commentsSapShot.docs.forEach((c) => {
-        comments.push({ id: c.id, ...c.data() });
-      });
-    }
+  const getData = async () => {
+    const {likes,comments} = await  getLikesAndComments(postInfo.id);
     setPost({
       ...postInfo,
       likes,
-      comments,
-    });
-  };
+      comments
+    })
+  }
 
   useEffect(() => {
-    getLikesAndComments();
+    getData();
   }, []);
 
   return post ? (
     <button
-      onClick={() => setPostModal(post)}
+      onClick={() => setModal(post)}
       className="Profile-post"
       style={{ backgroundImage: `url(${post.photo})` }}
     >
@@ -81,15 +60,4 @@ const ProfilePost: React.FC<Props> = ({ postInfo,setPostModal }) => {
   );
 };
 
-const mapStateToProps = (state:any) => ({})
-
-const mapDispatchToProps = (dispatch:any) => ({
-  setPostModal(post:postType){
-    dispatch({
-      type:"SET_POSTMODAL_INFO",
-      postModalInfo:post
-    })
-  }
-})
-
-export default connect(mapStateToProps,mapDispatchToProps)(ProfilePost);
+export default ProfilePost;

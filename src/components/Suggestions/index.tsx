@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { db } from "../../firebase";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import './styles.css';
 
 import {userDataType,stateType,follow} from "../../utilities/utils"
+import {getUsers} from "../../services/user.services";
 
 interface Props {
   userData:userDataType
@@ -14,31 +14,11 @@ interface Props {
 const Suggestions: React.FC<Props> = ({ userData }) => {
   const [users, setUsers] = useState([]);
 
-  const getUsers = async (userData:userDataType) => {
-    if (userData.following.length) {
-      const users = await db
-        .collection("userData")
-        .where("username", "not-in", userData.following)
-        .limit(5)
-        .get();
-      const arr:any = [];
-      users.docs.forEach((u) => {
-        if (u.data().uid !== userData.uid) {
-          arr.push(u.data());
-        }
-      });
-      setUsers(arr);
-    } else {
-      const users = await db.collection("userData").limit(5).get();
-      const arr:any = [];
-      users.docs.forEach((u) => {
-        if (u.data().uid !== userData.uid) {
-          arr.push(u.data());
-        }
-      });
-      setUsers(arr);
-    }
-  };
+
+  const getData = async () => {
+    let response = await getUsers(userData);
+    setUsers(response);
+  }
 
   const handleFollow = async (username:string, index:any) => {
     const temp = users;
@@ -50,7 +30,7 @@ const Suggestions: React.FC<Props> = ({ userData }) => {
   };
 
   useEffect(() => {
-    getUsers(userData);
+    getData();
   }, []);
 
   return (
@@ -85,4 +65,5 @@ const mapStateToProps = (state:stateType) => ({
   userData: state.userData,
 });
 const mapDispatchToProps = (dispatch:any) => ({});
+
 export default connect(mapStateToProps, mapDispatchToProps)(Suggestions);

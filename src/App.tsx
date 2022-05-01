@@ -12,7 +12,6 @@ const CreatePost = React.lazy(() => import("./pages/CreatePost"));
 const PostPage = React.lazy(() => import("./pages/PostPage"));
 const Profile = React.lazy(() => import("./pages/Profile"));
 const Inbox = React.lazy(() => import("./pages/Inbox"));
-const PostModal = React.lazy(() => import("./components/PostModal"))
 
 import Header from "./components/Header";
 
@@ -26,7 +25,6 @@ const App: React.FC = () => {
     <Router>
       <Provider store={store} >
         <React.Suspense fallback={<Loading />}>
-          <PostModal />
           <Header />
           <Route exact path="/" >
             <Login />

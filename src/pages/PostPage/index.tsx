@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { db } from "../../firebase";
+import { getPost } from "../../services/post.services";
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
 import Loading from "../../components/LoadingInstagram";
-
-import './styles.css';
-
 import { addComment,userDataType,handleLike,stateType } from "../../utilities/utils";
+import './styles.css';
 
 interface Props {
   userData:userDataType
@@ -36,43 +34,19 @@ const PostPage: React.FC<Props> = ({ userData }) => {
 		})
   };
 
-  const getPost = async () => {
-    const postData = await db.collection("posts").doc(id).get();
-    const likesSnapShot = await db
-      .collection("posts")
-      .doc(id)
-      .collection("likes")
-      .get();
-    const likes:any = [];
-    if (likesSnapShot.docs) {
-      likesSnapShot.docs.forEach((l:any) => {
-        likes.push(l.id);
-      });
-    }
-    const commentsSapShot = await db
-      .collection("posts")
-      .doc(id)
-      .collection("comments")
-      .get();
-    const comments:any = [];
-    if (commentsSapShot.docs) {
-      commentsSapShot.docs.forEach((c:any) => {
-        comments.push({ id: c.id, ...c.data() });
-      });
-    }
-    if (likes.includes(userData.username)) {
-      setIsLiked(true);
-    }
+  const getData = async () => {
+    const {postData,likes,comments,liked} = await getPost(id,userData);
     setPost({
-      ...postData.data(),
       likes,
       comments,
+      ...postData
     });
-    setIsLoading(false)
-  };
+    setIsLiked(liked);
+    setIsLoading(false);
+  }
 
   useEffect(() => {
-    getPost();
+    getData();
   }, []);
 
   if(isLoading){

@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-
-import './styles.css';
-
 import { addComment, handleLike, postType, userDataType } from "../../utilities/utils";
+import './styles.css';
 
 interface Props {
   postModalInfo: postType;
@@ -13,36 +11,29 @@ interface Props {
 }
 
 const PostModal: React.FC<Props> = ({ postModalInfo, userData, close }) => {
-  const [isLiked, setIsLiked] = useState(false);  const [commentText, setCommentText] = useState("");
-  const containerRef = useRef(null)
+  const [isLiked, setIsLiked] = useState(false); 
+  const [commentText, setCommentText] = useState("");
 
-  const like = () => {
-    handleLike(postModalInfo, isLiked, userData.username, setIsLiked)
-  }
-
+  const like = () => handleLike(postModalInfo, isLiked, userData.username, setIsLiked)
+  
   const handleComment = () => {
     postModalInfo.comments.push({
       id: 1,
       text: commentText,
       userPhoto: userData.photoURL,
       username: userData.username
-    })
+    });
     addComment(postModalInfo.id, commentText, userData);
     setCommentText("");
   };
 
   useEffect(() => {
-    if (postModalInfo) {
-      const codition = postModalInfo.likes.includes(userData.username)
-      codition ? setIsLiked(true) : setIsLiked(false)
-      if (containerRef.current) containerRef.current.style.display = 'block'
-    } else {
-      if (containerRef.current) containerRef.current.style.display = 'none'
-    }
+    const codition = postModalInfo.likes.includes(userData.username);
+    codition ? setIsLiked(true) : setIsLiked(false);
   }, [postModalInfo]);
 
-  return postModalInfo ? (
-    <div className="post-modal-container" ref={containerRef} >
+  return (
+    <div className="post-modal-container" >
       <button className="close-btn" onClick={close} >
         <i className="fas fa-times"></i>
       </button>
@@ -96,23 +87,13 @@ const PostModal: React.FC<Props> = ({ postModalInfo, userData, close }) => {
         </div>
       </div>
     </div>
-  ) : (
-    <></>
   )
 };
 
 const mapStateToProps = (state: any) => ({
-  postModalInfo: state.postModalInfo,
   userData: state.userData
 })
 
-const mapDispatchToProps = (dispatch: any) => ({
-  close() {
-    dispatch({
-      type: "SET_POSTMODAL_INFO",
-      postModalInfo: null
-    })
-  }
-})
+const mapDispatchToProps = (dispatch: any) => ({})
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostModal);
